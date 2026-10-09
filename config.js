@@ -33,5 +33,5 @@ window.LT_CONFIG = {
   TEACHER_NAME: "Shawn Hayden",
   DEPARTMENT:   "Career and Technical Education: Visual Arts",
   SCHOOL_NAME:  "Toppenish High School",
-  ROOM:         ""
+  ROOM:         "306"
 };
