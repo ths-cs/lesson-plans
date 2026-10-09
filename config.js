@@ -30,8 +30,8 @@ window.LT_CONFIG = {
   // 5) LESSON PLANS HEADER (used by lesson-plans.html, printed top right).
   //    Leave a line as "" to skip it. If all are empty, the page shows an
   //    editable "Teacher / Subject" line you can type into before printing.
-  TEACHER_NAME: "Your Name",
-  DEPARTMENT:   "Career and Technical Education",
+  TEACHER_NAME: "Shawn Hayden",
+  DEPARTMENT:   "Career and Technical Education: Visual Arts",
   SCHOOL_NAME:  "Toppenish High School",
   ROOM:         ""
 };
