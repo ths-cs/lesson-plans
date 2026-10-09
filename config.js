@@ -1,8 +1,9 @@
 /* =====================================================================
-   config.js — your personal settings for the learning targets page.
-   Keep this file next to learning-targets.html in your GitHub repo.
-   When the dashboard is updated, you only re-upload learning-targets.html;
-   this file stays as it is, so your settings are never erased.
+   config.js — your personal settings for the learning targets page
+   and the lesson plans page (lesson-plans.html).
+   Keep this file next to learning-targets.html and lesson-plans.html in
+   your GitHub repo. When either page is updated, you only re-upload that
+   page; this file stays as it is, so your settings are never erased.
    ===================================================================== */
 window.LT_CONFIG = {
 
@@ -24,5 +25,13 @@ window.LT_CONFIG = {
     { code: "DA1", name: "Digital Art 1",        detail: "Adobe Fresco and Illustrator" },
     { code: "FrS", name: "Freshman Success",     detail: "SEL and touch typing" },
     { code: "HSB", name: "High School & Beyond", detail: "Senior advisory · Schoolinks" }
-  ]
+  ],
+
+  // 5) LESSON PLANS HEADER (used by lesson-plans.html, printed top right).
+  //    Leave a line as "" to skip it. If all are empty, the page shows an
+  //    editable "Teacher / Subject" line you can type into before printing.
+  TEACHER_NAME: "Your Name",
+  DEPARTMENT:   "Career and Technical Education",
+  SCHOOL_NAME:  "Toppenish High School",
+  ROOM:         ""
 };
