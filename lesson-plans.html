@@ -69,6 +69,8 @@ td.spot{background:#fff8e1}
 .day-block .lbl{font-weight:700;color:var(--maroon);font-size:11px}
 .day-block ul{margin:1px 0 0;padding-left:16px}
 .day-block .spot{background:#fff8e1;border-left:4px solid #c9a227;padding:3px 6px;margin-top:5px}
+.day-block .tnote{border:1px dashed var(--maroon);padding:3px 6px;margin-top:5px}
+td .tn{border-top:1px dashed var(--line);padding-top:2px}
 .day-block.empty .body{color:#8a8181;font-style:italic}
 
 /* ---------- Print ---------- */
@@ -77,6 +79,10 @@ td.spot{background:#fff8e1}
   .controls,.status{display:none!important}
   .sheet{margin:0;padding:0;box-shadow:none;max-width:none}
   .links a{text-decoration:none;color:var(--ink)}
+  body.mode-week table.week{font-size:9.3px}
+  body.mode-week table.week th,body.mode-week table.week td{padding:2.5px 4px}
+  body.mode-week .doc-head h1{font-size:17px}
+  body.mode-week .stds{font-size:9.5px;padding:3px 6px;margin-bottom:5px}
 }
 </style>
 <style id="pageRule">@page{size:letter landscape;margin:.4in}</style>
@@ -175,7 +181,11 @@ var ALIASES={
   target:['learningtarget','target','ican','objective'], criteria:['successcriteria','criteria'],
   standard:['standard','standards','standardcode'], vocab:['vocabulary','vocab'],
   agenda:['agenda','activities','activity'], spotlight:['spotlight','announcement','notes','note'],
-  links:['links','link']
+  links:['links','link'],
+  materials:['lpmaterials','materials','materialsprep','prep'],
+  assess:['lpassessment','assessment','evidence','assessmentevidence'],
+  diff:['lpdifferentiation','differentiation','supports'],
+  tnotes:['lpnotes','teachernotes','lpteachernotes']
 };
 function toRecords(rows){
   var head=rows[0].map(norm), idx={};
@@ -250,7 +260,11 @@ var FIELDS=[
   {k:'vocab',label:'Vocabulary',week:false,day:true},
   {k:'agenda',label:'Agenda',week:true,day:true},
   {k:'spotlight',label:'Notes/Spotlight',week:false,day:true},
-  {k:'links',label:'Links',week:false,day:true}
+  {k:'links',label:'Links',week:false,day:true},
+  {k:'materials',label:'Materials/Prep',week:false,day:true},
+  {k:'assess',label:'Assessment',week:false,day:true},
+  {k:'diff',label:'Differentiation',week:false,day:true},
+  {k:'tnotes',label:'Teacher notes',week:false,day:true}
 ];
 var show={};
 function applyDefaults(){ FIELDS.forEach(function(f){ show[f.k]=f[mode]; }); buildFieldBoxes(); }
@@ -301,6 +315,10 @@ function weekCell(rs){
     if(show.target && r.target) h+='<div class="tgt">'+inline(r.target)+'</div>';
     if(show.criteria && r.criteria) h+='<div class="blk"><span class="lbl">Success:</span>'+ul(splitPipes(r.criteria))+'</div>';
     if(show.agenda && r.agenda) h+='<div class="blk">'+ul(splitPipes(r.agenda))+'</div>';
+    if(show.materials && r.materials) h+='<div class="blk"><span class="lbl">Prep:</span>'+ul(splitPipes(r.materials))+'</div>';
+    if(show.assess && r.assess) h+='<div class="blk"><span class="lbl">Evidence:</span> '+inline(splitPipes(r.assess).join('; '))+'</div>';
+    if(show.diff && r.diff) h+='<div class="blk"><span class="lbl">Support:</span> '+inline(splitPipes(r.diff).join('; '))+'</div>';
+    if(show.tnotes && r.tnotes) h+='<div class="blk tn"><span class="lbl">Teacher:</span> '+inline(r.tnotes)+'</div>';
     if(show.vocab && r.vocab) h+='<div class="blk"><span class="lbl">Vocab:</span> '+esc(splitPipes(r.vocab).join(', '))+'</div>';
     if(show.spotlight && r.spotlight) h+='<div class="blk"><span class="lbl">Note:</span> '+inline(r.spotlight)+'</div>';
     if(show.links && r.links) h+='<div class="blk links">'+linksHtml(parseLinks(r.links))+'</div>';
@@ -346,9 +364,15 @@ function renderDay(){
       if(show.criteria && r.criteria) h+='<div class="blk"><span class="lbl">Success criteria</span>'+ul(splitPipes(r.criteria))+'</div>';
       if(show.agenda && r.agenda) h+='<div class="blk"><span class="lbl">Agenda</span>'+ul(splitPipes(r.agenda))+'</div>';
       h+='</div>';
+      h+='<div class="cols">';
+      if(show.materials && r.materials) h+='<div class="blk"><span class="lbl">Materials / prep</span>'+ul(splitPipes(r.materials))+'</div>';
+      if(show.assess && r.assess) h+='<div class="blk"><span class="lbl">Assessment / evidence</span>'+ul(splitPipes(r.assess))+'</div>';
+      h+='</div>';
+      if(show.diff && r.diff) h+='<div class="blk"><span class="lbl">Differentiation</span>'+ul(splitPipes(r.diff))+'</div>';
       if(show.vocab && r.vocab) h+='<div class="blk"><span class="lbl">Vocabulary:</span> '+esc(splitPipes(r.vocab).join(', '))+'</div>';
       if(show.links && r.links) h+='<div class="blk links"><span class="lbl">Links:</span> '+linksHtml(parseLinks(r.links))+'</div>';
       if(show.spotlight && r.spotlight) h+='<div class="spot">'+inline(r.spotlight)+'</div>';
+      if(show.tnotes && r.tnotes) h+='<div class="tnote"><span class="lbl">Teacher notes:</span> '+inline(r.tnotes)+'</div>';
       h+='</div></section>';
     });
   });
