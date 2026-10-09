@@ -39,6 +39,8 @@ body.mode-day .sheet{max-width:8.5in}
 .doc-head .logo{height:.55in;width:auto;display:block}
 .doc-head h1{margin:0;font-size:20px;color:var(--maroon);letter-spacing:.2px}
 .doc-head .sub{font-size:12px;color:var(--muted)}
+.doc-head .who.filled{border-bottom:none;line-height:1.35;font-size:12px}
+.doc-head .who.filled b{font-size:14px;color:var(--maroon)}
 .doc-head .who{font-size:12px;text-align:right;min-width:2in;border-bottom:1px dotted var(--line)}
 
 /* ---------- Standards band ---------- */
@@ -428,13 +430,22 @@ function className(code){
   for(var i=0;i<list.length;i++) if(String(list[i].code).toLowerCase()===String(code).toLowerCase()) return list[i].name||'';
   return '';
 }
+function whoHtml(){
+  var c=readConfig(), lines=[];
+  if(c.TEACHER_NAME) lines.push('<b>'+esc(c.TEACHER_NAME)+'</b>');
+  if(c.DEPARTMENT) lines.push(esc(c.DEPARTMENT));
+  if(c.SCHOOL_NAME) lines.push(esc(c.SCHOOL_NAME));
+  if(c.ROOM) lines.push('Room '+esc(c.ROOM));
+  if(lines.length) return '<div class="who filled">'+lines.join('<br>')+'</div>';
+  return '<div class="who" contenteditable="true" spellcheck="false" aria-label="Teacher and subject (editable)">Teacher / Subject</div>';
+}
 var LOGO_SVG='<svg class="logo" role="img" aria-label="School logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 590 567.57"><polygon fill="#fff" points="590 292.25 590 0 0 0 0 292.25 162.97 292.25 162.97 331.22 111.89 331.22 111.89 567.57 478.11 567.57 478.11 331.22 427.03 331.22 427.03 292.25 590 292.25"/><polygon fill="#000" points="565 267.25 565 25 25 25 25 267.25 187.97 267.25 187.97 356.22 136.89 356.22 136.89 542.57 453.11 542.57 453.11 356.22 402.03 356.22 402.03 267.25 565 267.25"/><polygon fill="#d1d3d4" points="535.81 239.29 535.81 52.95 54.19 52.95 54.19 239.29 190.41 239.29 190.41 183.39 217.16 183.39 217.16 384.18 166.08 384.18 166.08 514.61 423.92 514.61 423.92 384.18 372.84 384.18 372.84 183.39 399.6 183.39 399.6 239.29 535.81 239.29"/><polygon fill="#822336" points="343.65 155.44 428.78 155.44 428.78 211.34 506.62 211.34 506.62 80.9 83.38 80.9 83.38 211.34 161.22 211.34 161.22 155.44 246.35 155.44 246.35 412.13 195.27 412.13 195.27 486.66 394.73 486.66 394.73 412.13 343.65 412.13 343.65 155.44"/></svg>';
 function head(title,sub){
   var sn=subsetNote(); if(sn) sub+='  |  '+sn;
   var lu=readConfig().LOGO_URL;
   var logoHtml= lu ? '<img class="logo" src="'+esc(lu)+'" alt="School logo" onerror="this.style.display=\'none\'">' : LOGO_SVG;
   return '<div class="doc-head"><div class="brand">'+logoHtml+'<div><h1>'+esc(title)+'</h1><div class="sub">'+esc(sub)+'</div></div></div>'+
-         '<div class="who" contenteditable="true" spellcheck="false" aria-label="Teacher and subject (editable)">Teacher / Subject</div></div>';
+         whoHtml()+'</div>';
 }
 
 var REQ=[['standard','Standard'],['target','Learning target'],['criteria','Success criteria'],['agenda','Agenda']];
